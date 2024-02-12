@@ -7,5 +7,5 @@
 3. Once the job is successfully completed, go to the summary section and scroll down to the bottom. You can download the artifact containing all the images in a tar file.
 4. To load these images into Docker, execute the following command:
 `docker load -i docker-images.tar`
-If you wish to load images into the containerd registry, use the following command:
+5. If you wish to load images into the containerd registry, use the following command:
 `sudo ctr images import /path/of/docker-images.tar containerd://*;`
