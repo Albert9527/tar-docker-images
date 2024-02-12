@@ -12,8 +12,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-        
-      - name: Pull Docker images of k8s-core-components 
+      - name: Login to Docker
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Pull Docker images of k8s-core-components
         run: |
           docker pull coredgeio/kube-controller-manager:${{ env.K8s-VERSION }}
           docker pull coredgeio/kube-scheduler:${{ env.K8s-VERSION }}
