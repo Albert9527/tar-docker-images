@@ -1,4 +1,6 @@
 name: Docker Image Pull and Tar Creation
+env:
+  K8s-VERSION: "v1.27.6"
 
 on: [ workflow_dispatch ]
 
@@ -12,14 +14,17 @@ jobs:
         
       - name: Pull Docker images
         run: |
-          docker pull coredgeio/kube-controller-manager:v1.27.6
+          docker pull coredgeio/kube-controller-manager:${{ env.K8s-VERSION }}
+          docker pull coredgeio/kube-scheduler:${{ env.K8s-VERSION }}
+          docker pull coredgeio/kube-proxy:${{ env.K8s-VERSION }}
+          docker pull coredgeio/kube-apiserver:${{ env.K8s-VERSION }}
         
       - name: Create tarball
         run: |
-          docker save coredgeio/kube-controller-manager:v1.27.6 | gzip > docker_images.tar.gz
+          docker save coredgeio/kube-controller-manager:${{ env.K8s-VERSION }} coredgeio/kube-proxy:${{ env.K8s-VERSION }} coredgeio/kube-scheduler:${{ env.K8s-VERSION }} coredgeio/kube-apiserver:${{ env.K8s-VERSION }} | gzip > docker_images_${{ env.K8s-VERSION }}.tar.gz
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: docker_images
-          path: docker_images.tar.gz
+          path: docker_images_${{ env.K8s-VERSION }}.tar.gz
