@@ -8,4 +8,4 @@
 4. To load these images into Docker, execute the following command:
 `docker load -i docker-images.tar`
 5. If you wish to load images into the containerd registry, use the following command:
-`sudo ctr images import /path/of/docker-images.tar containerd://*;`
+`sudo ctr images import /path/of/docker-images.tar containerd://*`
