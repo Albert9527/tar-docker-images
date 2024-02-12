@@ -13,19 +13,52 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         
-      - name: Pull Docker images
+      - name: Pull Docker images of k8s-core-components 
         run: |
           docker pull coredgeio/kube-controller-manager:${{ env.K8s-VERSION }}
           docker pull coredgeio/kube-scheduler:${{ env.K8s-VERSION }}
           docker pull coredgeio/kube-proxy:${{ env.K8s-VERSION }}
           docker pull coredgeio/kube-apiserver:${{ env.K8s-VERSION }}
-        
+      - name: Pull Docker images of k8s-core-components 
+        run: |
+          images=(
+            "compass-api"
+            "compass-cloud-manager"
+            "compass-cluster-manager"
+            "compass-controller"
+            "compass-metric-server"
+            "compass-orchestrator"
+            "compass-term"
+            "frontend"
+            "kg-cluster-notifier"
+            "kgapp"
+            "kg-keycloak:19.0.3-7"
+            "minio:RELEASE.2019-12-17T23-16-33Z"
+            "mongo:5.0.3"
+            "workflow-controller"
+            "workflowcli:14092021"
+            "mysql:8.0"
+            "postgres:9.5"
+            "redis:6.2.5"
+            "argoexec:latest"
+          )
+      
+          for image in "${images[@]}"; do
+            docker pull "coredgeio/$image:${{ env.Cloud_orbiter }}"
+          done
+
       - name: Create tarball
         run: |
-          docker save coredgeio/kube-controller-manager:${{ env.K8s-VERSION }} coredgeio/kube-proxy:${{ env.K8s-VERSION }} coredgeio/kube-scheduler:${{ env.K8s-VERSION }} coredgeio/kube-apiserver:${{ env.K8s-VERSION }} | gzip > docker_images_${{ env.K8s-VERSION }}.tar.gz
+          docker save $(docker images --format "{{.Repository}}:{{.Tag}}" "coredgeio/*") | gzip > docker_images_${{ env.K8s-VERSION }}.tar.gz
+
+    
+        
+      # - name: Create tarball
+      #   run: |
+      #     docker save coredgeio/kube-controller-manager:${{ env.K8s-VERSION }} coredgeio/kube-proxy:${{ env.K8s-VERSION }} coredgeio/kube-scheduler:${{ env.K8s-VERSION }} coredgeio/kube-apiserver:${{ env.K8s-VERSION }} | gzip > docker_images_${{ env.K8s-VERSION }}.tar.gz
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: docker_images
-          path: docker_images_${{ env.K8s-VERSION }}.tar.gz
+          path: docker_images_${{ env.Cloud_orbiter }}.tar.gz
