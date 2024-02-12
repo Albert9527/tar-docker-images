@@ -33,19 +33,19 @@ jobs:
             "frontend"
             "kg-cluster-notifier"
             "kgapp"
-            "kg-keycloak:19.0.3-7"
-            "minio:RELEASE.2019-12-17T23-16-33Z"
-            "mongo:5.0.3"
-            "workflow-controller"
-            "workflowcli:14092021"
-            "mysql:8.0"
-            "postgres:9.5"
-            "redis:6.2.5"
-            "argoexec:latest"
           )
       
           for image in "${images[@]}"; do
             docker pull "coredgeio/$image:${{ env.Cloud_orbiter }}"
+            docker pull "kg-keycloak:19.0.3-7"
+            docker pull "minio:RELEASE.2019-12-17T23-16-33Z"
+            docker pull "mongo:5.0.3"
+            docker pull "workflow-controller"
+            docker pull "workflowcli:14092021"
+            docker pull "mysql:8.0"
+            docker pull "postgres:9.5"
+            docker pull "redis:6.2.5"
+            docker pull "argoexec:latest"
           done
       
       - name: Create tarball
