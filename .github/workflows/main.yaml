@@ -12,11 +12,11 @@ jobs:
         
       - name: Pull Docker images
         run: |
-          docker pull coredgeio/kube-controller-manager:1.27.6
+          docker pull coredgeio/kube-controller-manager:v1.27.6
         
       - name: Create tarball
         run: |
-          docker save coredgeio/kube-controller-manager:1.27.6 | gzip > docker_images.tar.gz
+          docker save coredgeio/kube-controller-manager:v1.27.6 | gzip > docker_images.tar.gz
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
