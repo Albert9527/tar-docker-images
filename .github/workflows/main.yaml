@@ -46,10 +46,11 @@ jobs:
           for image in "${images[@]}"; do
             docker pull "coredgeio/$image:${{ env.Cloud_orbiter }}"
           done
-
+      
       - name: Create tarball
         run: |
           docker save $(docker images --format "{{.Repository}}:{{.Tag}}" "coredgeio/*") | gzip > docker_images_${{ env.K8s-VERSION }}.tar.gz
+
 
     
         
