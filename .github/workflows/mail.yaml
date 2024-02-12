@@ -1,0 +1,32 @@
+name: Docker Image Pull and Tar Creation
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 * * *' # Runs daily at midnight
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
+      - name: Pull Docker images
+        run: |
+          docker pull your_docker_image_1
+          docker pull your_docker_image_2
+          # Add more docker pull commands for additional images
+        
+      - name: Create tarball
+        run: |
+          docker save your_docker_image_1 your_docker_image_2 | gzip > docker_images.tar.gz
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: docker_images
+          path: docker_images.tar.gz
