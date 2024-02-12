@@ -1,11 +1,6 @@
 name: Docker Image Pull and Tar Creation
 
-on:
-  push:
-    branches:
-      - main
-  schedule:
-    - cron: '0 0 * * *' # Runs daily at midnight
+on: [ workflow_dispatch ]
 
 jobs:
   build:
@@ -17,13 +12,11 @@ jobs:
         
       - name: Pull Docker images
         run: |
-          docker pull your_docker_image_1
-          docker pull your_docker_image_2
-          # Add more docker pull commands for additional images
+          docker pull coredgeio/kube-controller-manager
         
       - name: Create tarball
         run: |
-          docker save your_docker_image_1 your_docker_image_2 | gzip > docker_images.tar.gz
+          docker save coredgeio/kube-controller-manager | gzip > docker_images.tar.gz
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
