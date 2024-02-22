@@ -20,33 +20,33 @@ jobs:
           docker pull coredgeio/kube-scheduler:${{ env.K8s-VERSION }}
           docker pull coredgeio/kube-proxy:${{ env.K8s-VERSION }}
           docker pull coredgeio/kube-apiserver:${{ env.K8s-VERSION }}
-      - name: Pull Docker images of k8s-core-components 
-        run: |
-          images=(
-            "compass-api"
-            "compass-cloud-manager"
-            "compass-cluster-manager"
-            "compass-controller"
-            "compass-metric-server"
-            "compass-orchestrator"
-            "compass-term"
-            "frontend"
-            "kg-cluster-notifier"
-            "kgapp"
-          )
+      # - name: Pull Docker images of k8s-core-components 
+      #   run: |
+      #     images=(
+      #       "compass-api"
+      #       "compass-cloud-manager"
+      #       "compass-cluster-manager"
+      #       "compass-controller"
+      #       "compass-metric-server"
+      #       "compass-orchestrator"
+      #       "compass-term"
+      #       "frontend"
+      #       "kg-cluster-notifier"
+      #       "kgapp"
+      #     )
       
-          for image in "${images[@]}"; do
-            docker pull "coredgeio/$image:${{ env.Cloud_orbiter }}"
-            docker pull "coredgeio/kg-keycloak:19.0.3-7"
-            docker pull "coredgeio/minio:RELEASE.2019-12-17T23-16-33Z"
-            docker pull "coredgeio/mongo:5.0.3"
-            docker pull "coredgeio/workflow-controller"
-            docker pull "coredgeio/workflowcli:14092021"
-            docker pull "coredgeio/mysql:8.0"
-            docker pull "coredgeio/postgres:9.5"
-            docker pull "coredgeio/redis:6.2.5"
-            docker pull "coredgeio/argoexec:latest"
-          done
+      #     for image in "${images[@]}"; do
+      #       docker pull "coredgeio/$image:${{ env.Cloud_orbiter }}"
+      #       docker pull "coredgeio/kg-keycloak:19.0.3-7"
+      #       docker pull "coredgeio/minio:RELEASE.2019-12-17T23-16-33Z"
+      #       docker pull "coredgeio/mongo:5.0.3"
+      #       docker pull "coredgeio/workflow-controller"
+      #       docker pull "coredgeio/workflowcli:14092021"
+      #       docker pull "coredgeio/mysql:8.0"
+      #       docker pull "coredgeio/postgres:9.5"
+      #       docker pull "coredgeio/redis:6.2.5"
+      #       docker pull "coredgeio/argoexec:latest"
+      #     done
       
       - name: Create tarball
         run: |
