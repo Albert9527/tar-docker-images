@@ -20,6 +20,8 @@ jobs:
           docker pull coredgeio/kube-scheduler:${{ env.K8s-VERSION }}
           docker pull coredgeio/kube-proxy:${{ env.K8s-VERSION }}
           docker pull coredgeio/kube-apiserver:${{ env.K8s-VERSION }}
+          docker pull registry.k8s.io/coredns/coredns:v1.10.1
+          docker pull coredgeio/pause:3.9
       # - name: Pull Docker images of k8s-core-components 
       #   run: |
       #     images=(
@@ -48,19 +50,19 @@ jobs:
       #       docker pull "coredgeio/argoexec:latest"
       #     done
       
-      - name: Create tarball
-        run: |
-          docker save $(docker images --format "{{.Repository}}:{{.Tag}}" "coredgeio/*") | gzip > docker_images_${{ env.Cloud_orbiter }}.tar.gz
+      # - name: Create tarball
+      #   run: |
+      #     docker save $(docker images --format "{{.Repository}}:{{.Tag}}" "coredgeio/*") | gzip > docker_images_${{ env.Cloud_orbiter }}.tar.gz
 
 
     
         
-      # - name: Create tarball
-      #   run: |
-      #     docker save coredgeio/kube-controller-manager:${{ env.K8s-VERSION }} coredgeio/kube-proxy:${{ env.K8s-VERSION }} coredgeio/kube-scheduler:${{ env.K8s-VERSION }} coredgeio/kube-apiserver:${{ env.K8s-VERSION }} | gzip > docker_images_${{ env.K8s-VERSION }}.tar.gz
+      - name: Create tarball
+        run: |
+          docker save registry.k8s.io/coredns/coredns:v1.10.1 coredgeio/pause:3.9 coredgeio/kube-controller-manager:${{ env.K8s-VERSION }} coredgeio/kube-proxy:${{ env.K8s-VERSION }} coredgeio/kube-scheduler:${{ env.K8s-VERSION }} coredgeio/kube-apiserver:${{ env.K8s-VERSION }} | gzip > docker_images_${{ env.K8s-VERSION }}.tar.gz
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: docker_images
-          path: docker_images_${{ env.Cloud_orbiter }}.tar.gz
+          path: docker_images_${{ env.K8s-VERSION }}.tar.gz
