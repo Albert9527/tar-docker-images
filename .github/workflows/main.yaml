@@ -1,6 +1,6 @@
 name: Docker Image Pull and Tar Creation
 env:
-  K8s-VERSION: "v1.27.6"
+  K8s-VERSION: "v1.28.3"
   Cloud_orbiter: "2024-02-05"
 
 on: [ workflow_dispatch ]
